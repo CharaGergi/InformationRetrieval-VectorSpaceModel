@@ -4,6 +4,7 @@ package myLuceneApp;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -18,14 +19,17 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
+import txtparsing.QueryParsing;
 
 
 public class SearcherDemo {
+
+    String queryFile = "C://Users//Chara//Desktop//Ανάκτηση//CISI.QRY";
     
     public SearcherDemo(){
         try{
             String indexLocation = ("index"); //define where the index is stored
-            String field = "contents"; //define which field will be searched            
+            String field = "contents"; //define which field will be searched
             
             //Access the index using indexReaderFSDirectory.open(Paths.get(index))
             IndexReader indexReader = DirectoryReader.open(FSDirectory.open(Paths.get(indexLocation))); //IndexReader is an abstract class, providing an interface for accessing an index.
@@ -52,32 +56,28 @@ public class SearcherDemo {
             
             // create a query parser on the field "contents"
             QueryParser parser = new QueryParser(field, analyzer);
-            
-            // read user's query from stdin
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Enter query or 'q' to quit: ");
-            System.out.print(">>");
-            String line = br.readLine();
-            while(line!=null && !line.equals("") && !line.equalsIgnoreCase("q")){
+
+            //Read the file that contains the queries
+            List<String[]> queries = QueryParsing.parse(queryFile);
+            int i=0;
+            //
+            while(i<queries.size()){
                 // parse the query according to QueryParser
-                Query query = parser.parse(line);
-                System.out.println("Searching for: " + query.toString(field));
+                Query query = parser.parse(queries.get(i)[1]);
+                //System.out.println("Searching for: " + query.toString(field));
+                i++;
                 
                 // search the index using the indexSearcher
                 TopDocs results = indexSearcher.search(query, 1);
                 ScoreDoc[] hits = results.scoreDocs;
                 long numTotalHits = results.totalHits;
-                System.out.println(numTotalHits + " total matching documents");
+                //System.out.println(numTotalHits + " total matching documents");
 
                 //display results
-                for(int i=0; i<hits.length; i++){
-                    Document hitDoc = indexSearcher.doc(hits[i].doc);
-                    System.out.println("\tScore "+hits[i].score +"\ttitle:"+hitDoc.get("title")+"\tauthor:"+hitDoc.get("author")+"\tbody:"+hitDoc.get("body"));
+                for(int k=0; i<hits.length; k++){
+                    Document hitDoc = indexSearcher.doc(hits[k].doc);
+                   // System.out.println("\tScore "+hits[k].score +"\ttitle:"+hitDoc.get("title")+"\tauthor:"+hitDoc.get("author")+"\tbody:"+hitDoc.get("body"));
                 }
-                
-                System.out.println("Enter query or 'q' to quit: ");
-                System.out.print(">>");
-                line = br.readLine();
             }
         } catch(Exception e){
             e.printStackTrace();

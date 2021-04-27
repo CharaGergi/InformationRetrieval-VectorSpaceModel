@@ -1,6 +1,6 @@
 package myLuceneApp;
 
-// tested for lucene 7.7.2 and jdk13
+// tested for lucene 7.7.2 and jdk13f
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;

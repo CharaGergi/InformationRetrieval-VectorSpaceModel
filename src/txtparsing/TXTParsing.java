@@ -1,12 +1,8 @@
 package txtparsing;
 
 import utils.IO;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Integer.parseInt;
 
 public class TXTParsing {
     public static List<MyDoc> parse(String file) throws Exception {
