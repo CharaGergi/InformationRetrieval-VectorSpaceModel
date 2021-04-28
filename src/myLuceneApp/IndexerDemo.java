@@ -87,8 +87,7 @@ public class IndexerDemo {
             
             // make a new, empty document
             Document doc = new Document();
-            int i =0;
-            
+
             // create the fields of the document and add them to the document
             StoredField title = new StoredField("title", mydoc.getTitle());
             doc.add(title);
@@ -103,7 +102,7 @@ public class IndexerDemo {
             //doc.add(citation);
             String fullSearchableText = mydoc.getTitle() + " " + mydoc.getAuthor() + " " + mydoc.getBody();
 
-            TextField contents = new TextField("contents", fullSearchableText, Field.Store.YES);
+            TextField contents = new TextField("contents", fullSearchableText, Field.Store.NO);
             doc.add(contents);
             System.out.println(contents);
 
@@ -111,7 +110,6 @@ public class IndexerDemo {
                 // New index, so we just add the document (no old document can be there):
                 //System.out.println("adding " + doc);
                 indexWriter.addDocument(doc);
-                i++;
             }
         } catch(Exception e){
             e.printStackTrace();

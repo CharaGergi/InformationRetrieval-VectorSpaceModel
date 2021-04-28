@@ -24,19 +24,13 @@ public class TXTParsing {
                 int iend = adoc[1].indexOf(".A" );
                 if (iend != -1)
                 {
-                    title = adoc[1].substring(0, iend);
-                    authors = adoc[1].substring(iend+1);
-                    authors = authors.replaceAll("(\n[.]A)", "");
+                    title = adoc[1].substring(0, iend).trim();
+                    authors = adoc[1].substring(iend+2);
+                    authors = authors.replaceAll("(\n[.]A)", "").trim();
                 }
-                //= adoc[1].substring(adoc[1].indexOf(".A"));
-                /*if (adoc.length == 6){
-                    adoc[2] = adoc[2] + adoc[3];
-                    //System.out.println(adoc[2]);
-                    adoc[3] =  adoc[4];
-                    adoc[4] = adoc[5];
-                }*/
+
                 //Get index of space and then find the numerical part of the id
-                String id_index = adoc[0];
+                String id_index;
                 int index = adoc[0].indexOf(" ");
                 id_index = adoc[0].substring(index+1).replaceAll("\\s+","");
 
@@ -60,8 +54,10 @@ public class TXTParsing {
                 parsed_docs.add(mydoc);
 
             }
-            System.out.println("TITLE " + parsed_docs.get(276).getTitle());
-            System.out.println("AUTHORS " + parsed_docs.get(276).getAuthor());
+            System.out.print("TITLE " + parsed_docs.get(276).getTitle());
+            System.out.print("AUTHORS " + parsed_docs.get(276).getAuthor());
+            System.out.println("TITLE " + parsed_docs.get(270).getTitle());
+            System.out.print(parsed_docs.get(1459).getAuthor());
             return parsed_docs;
         } catch (Throwable err) {
             err.printStackTrace();
