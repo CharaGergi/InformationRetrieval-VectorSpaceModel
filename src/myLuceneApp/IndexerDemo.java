@@ -103,15 +103,16 @@ public class IndexerDemo {
             //doc.add(citation);
             String fullSearchableText = mydoc.getTitle() + " " + mydoc.getAuthor() + " " + mydoc.getBody();
 
-            TextField contents = new TextField("contents", fullSearchableText, Field.Store.NO);
+            TextField contents = new TextField("contents", fullSearchableText, Field.Store.YES);
             doc.add(contents);
-            
+            System.out.println(contents);
+
             if (indexWriter.getConfig().getOpenMode() == OpenMode.CREATE ) {
                 // New index, so we just add the document (no old document can be there):
                 //System.out.println("adding " + doc);
                 indexWriter.addDocument(doc);
                 i++;
-            } 
+            }
         } catch(Exception e){
             e.printStackTrace();
         }
