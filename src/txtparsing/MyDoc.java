@@ -3,14 +3,14 @@ package txtparsing;
 import java.util.ArrayList;
 
 public class MyDoc {
-    private int id;
+    private String id;
     private String title;
     private String author;
     private String body;
     private ArrayList<String[]> citation = new ArrayList<>() ;
 
 
-    public MyDoc(int id, String title, String author, String body, ArrayList<String[]> citation) {
+    public MyDoc(String id, String title, String author, String body, ArrayList<String[]> citation) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -30,9 +30,9 @@ public class MyDoc {
     }
 
     //---- Getters & Setters definition ----
-    public int getId(){return id;}
+    public String getId(){return id;}
 
-    public void setId(int id){this.id = id;}
+    public void setId(String id){this.id = id;}
 
     public String getTitle() {
         return title;

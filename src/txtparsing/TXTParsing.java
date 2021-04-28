@@ -30,9 +30,9 @@ public class TXTParsing {
                 }
 
                 //Get index of space and then find the numerical part of the id
-                String id_index;
+                String id;
                 int index = adoc[0].indexOf(" ");
-                id_index = adoc[0].substring(index+1).replaceAll("\\s+","");
+                id = adoc[0].substring(index+1).replaceAll("\\s+","");
 
                 //Citations are stored at index 4 of the adoc array
                 //Split each row of citations and save at another array
@@ -48,7 +48,6 @@ public class TXTParsing {
                     citations.add(citation_triplet);
                 }
                 //Make the id int
-                int id = Integer.parseInt(id_index);
                 //Create the doc and add it to parsed_docs
                 MyDoc mydoc = new MyDoc( id ,title ,authors, adoc[2], citations);
                 parsed_docs.add(mydoc);

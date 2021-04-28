@@ -88,7 +88,7 @@ public class SearcherDemo {
                 //display results
                 for(int j=0; j<hits.length; j++){
                     Document hitDoc = indexSearcher.doc(hits[j].doc);
-                    txtWriter.write(i +"    0"+ "\t" + hitDoc.get("id")+ "\t0"  + "\t"+hits[j].score + "\n");
+                    txtWriter.write(i +"    0" + "\t" + hitDoc.get("id")+ "\t0"  + "\t"+hits[j].score + "\tsearch\n");
 
                     System.out.println((i) + "\tScore "+hits[j].score +"\ttitle:"+hitDoc.get("title"));//+"\tauthor:"+hitDoc.get("author")+"\tbody:"+hitDoc.get("body"));
                 }
@@ -103,6 +103,6 @@ public class SearcherDemo {
      * Initialize a SearcherDemo
      */
     public static void main(String[] args){
-        SearcherDemo searcherDemo = new SearcherDemo(50);
+        SearcherDemo searcherDemo = new SearcherDemo(20);
     }
 }
