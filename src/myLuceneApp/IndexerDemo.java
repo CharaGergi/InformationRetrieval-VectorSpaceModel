@@ -89,6 +89,9 @@ public class IndexerDemo {
             Document doc = new Document();
 
             // create the fields of the document and add them to the document
+            StoredField id = new StoredField("id", mydoc.getId());
+            doc.add(id);
+
             StoredField title = new StoredField("title", mydoc.getTitle());
             doc.add(title);
             //System.out.println("TITLE " + title);

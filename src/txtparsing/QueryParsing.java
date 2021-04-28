@@ -23,7 +23,7 @@ public class QueryParsing {
 
                 parsed_queries.add(adoc);
             }
-            System.out.println("Queries" + parsed_queries.get(55)[1] + "\n" + parsed_queries.get(10)[1]);
+            //System.out.println("Queries" + parsed_queries.get(55)[1] + "\n" + parsed_queries.get(10)[1]);
             return parsed_queries;
         } catch (Throwable err) {
             err.printStackTrace();

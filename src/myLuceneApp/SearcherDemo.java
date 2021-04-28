@@ -1,11 +1,11 @@
 package myLuceneApp;
 
 // tested for lucene 7.7.2 and jdk13
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.List;
 
+import com.sun.istack.internal.NotNull;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
@@ -24,9 +24,12 @@ import txtparsing.QueryParsing;
 
 public class SearcherDemo {
 
-    String queryFile = "C://Users//Chara//Desktop//Ανάκτηση//QRY.txt";
+    String queryFile = "C://Users//Chara//Desktop//Ανάκτηση//CISI.QRY";
+    File results = new File("results.txt");
+    BufferedWriter txtWriter;
 
-    public SearcherDemo(){
+
+    public SearcherDemo(int k){
         try{
             String indexLocation = ("index"); //define where the index is stored
             String field = "contents"; //define which field will be searched
@@ -37,10 +40,13 @@ public class SearcherDemo {
             indexSearcher.setSimilarity(new ClassicSimilarity());
             
             //Search the index using indexSearcher
-            search(indexSearcher, field);
+            search(indexSearcher, field, k);
             
             //Close indexReader
             indexReader.close();
+
+            //Close bufferedWriter
+            txtWriter.close();
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -49,56 +55,54 @@ public class SearcherDemo {
     /**
      * Searches the index given a specific user query.
      */
-    private void search(IndexSearcher indexSearcher, String field){
+    private void search(IndexSearcher indexSearcher, String field, int k){
         try{
             // define which analyzer to use for the normalization of user's query
             Analyzer analyzer = new EnglishAnalyzer();
             
             // create a query parser on the field "contents"
             QueryParser parser = new QueryParser(field, analyzer);
-            String star ="*";
-            String apostrophe = "\'";
-            String dots = ":";
-            String questionMark ="?";
-
-            parser.escape(star);
-            parser.escape(apostrophe);
-            parser.escape(dots);
-            parser.escape(questionMark);
 
             //Read the file that contains the queries
             List<String[]> queries = QueryParsing.parse(queryFile);
+
+            //Create a buffer to write the results
+            txtWriter = new BufferedWriter(new FileWriter( results));
+
             int i=0;
-            //
+            //For all the queries contained in the file
             while(i<queries.size()){
 
                 // parse the query according to QueryParser
                 Query query = parser.parse(queries.get(i)[1]);
 
-                System.out.println("Searching for: " + query.toString(field));
+                //System.out.println("Searching for: " + query.toString(field));
                 i++;
                 
                 // search the index using the indexSearcher
-                TopDocs results = indexSearcher.search(query, 4);
+                TopDocs results = indexSearcher.search(query, k);
                 ScoreDoc[] hits = results.scoreDocs;
                 long numTotalHits = results.totalHits;
                 System.out.println(numTotalHits + " total matching documents");
 
                 //display results
-                for(int k=0; k<hits.length; k++){
-                    Document hitDoc = indexSearcher.doc(hits[k].doc);
-                    //System.out.println("\tScore "+hits[k].score +"\ttitle:"+hitDoc.get("title")+"\tauthor:"+hitDoc.get("author")+"\tbody:"+hitDoc.get("body"));
+                for(int j=0; j<hits.length; j++){
+                    Document hitDoc = indexSearcher.doc(hits[j].doc);
+                    txtWriter.write(i +"    0"+ "\t" + hitDoc.get("id")+ "\t0"  + "\t"+hits[j].score + "\n");
+
+                    System.out.println((i) + "\tScore "+hits[j].score +"\ttitle:"+hitDoc.get("title"));//+"\tauthor:"+hitDoc.get("author")+"\tbody:"+hitDoc.get("body"));
                 }
             }
         } catch(Exception e){
             e.printStackTrace();
         }
+
     }
 
     /**
      * Initialize a SearcherDemo
      */
     public static void main(String[] args){
-        SearcherDemo searcherDemo = new SearcherDemo();
+        SearcherDemo searcherDemo = new SearcherDemo(50);
     }
 }
