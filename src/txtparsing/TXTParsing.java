@@ -1,5 +1,6 @@
 package txtparsing;
 
+import com.sun.istack.internal.NotNull;
 import utils.IO;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +52,11 @@ public class TXTParsing {
                 //Create the doc and add it to parsed_docs
                 MyDoc mydoc = new MyDoc( id ,title ,authors, adoc[2], citations);
                 parsed_docs.add(mydoc);
-
             }
-            System.out.print("TITLE " + parsed_docs.get(276).getTitle());
-            System.out.print("AUTHORS " + parsed_docs.get(276).getAuthor());
-            System.out.println("TITLE " + parsed_docs.get(270).getTitle());
-            System.out.print(parsed_docs.get(1459).getAuthor());
+//            System.out.print("CITATION " + parsed_docs.get(276).getTitle());
+//            System.out.print("AUTHORS " + parsed_docs.get(276).getAuthor());
+//            System.out.println("TITLE " + parsed_docs.get(270).getTitle());
+//            System.out.print(parsed_docs.get(1459).getAuthor());
             return parsed_docs;
         } catch (Throwable err) {
             err.printStackTrace();

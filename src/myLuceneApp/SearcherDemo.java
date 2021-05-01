@@ -64,7 +64,7 @@ public class SearcherDemo {
             QueryParser parser = new QueryParser(field, analyzer);
 
             //Read the file that contains the queries
-            List<String[]> queries = QueryParsing.parse(queryFile);
+            List<String> queries = QueryParsing.parse(queryFile);
 
             //Create a buffer to write the results
             txtWriter = new BufferedWriter(new FileWriter( results));
@@ -74,23 +74,23 @@ public class SearcherDemo {
             while(i<queries.size()){
 
                 // parse the query according to QueryParser
-                Query query = parser.parse(queries.get(i)[1]);
+                Query query = parser.parse(queries.get(i));
 
                 //System.out.println("Searching for: " + query.toString(field));
-                i++;
+
                 
                 // search the index using the indexSearcher
                 TopDocs results = indexSearcher.search(query, k);
                 ScoreDoc[] hits = results.scoreDocs;
                 long numTotalHits = results.totalHits;
-                System.out.println(numTotalHits + " total matching documents");
+                //System.out.println(numTotalHits + " total matching documents");
 
+                i++;
                 //display results
                 for(int j=0; j<hits.length; j++){
                     Document hitDoc = indexSearcher.doc(hits[j].doc);
+                    //System.out.println( hitDoc.get("id")+ hitDoc.get("title"));
                     txtWriter.write(i +"    0" + "\t" + hitDoc.get("id")+ "\t0"  + "\t"+hits[j].score + "\tsearch\n");
-
-                    System.out.println((i) + "\tScore "+hits[j].score +"\ttitle:"+hitDoc.get("title"));//+"\tauthor:"+hitDoc.get("author")+"\tbody:"+hitDoc.get("body"));
                 }
             }
         } catch(Exception e){
@@ -103,6 +103,6 @@ public class SearcherDemo {
      * Initialize a SearcherDemo
      */
     public static void main(String[] args){
-        SearcherDemo searcherDemo = new SearcherDemo(20);
+        SearcherDemo searcherDemo = new SearcherDemo(50);
     }
 }

@@ -18,6 +18,7 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -101,13 +102,15 @@ public class IndexerDemo {
             StoredField body = new StoredField("body", mydoc.getBody());
             doc.add(body);
             //System.out.println("BODY " + body);
-            //StoredField citation = new StoredField("citation", mydoc.getCitation());
-            //doc.add(citation);
+//            StoredField citation = new StoredField("citation",arrayToString(mydoc.getCitation()));
+//            doc.add(citation);
+//            System.out.println("CITATION  " + citation);
             String fullSearchableText = mydoc.getTitle() + " " + mydoc.getAuthor() + " " + mydoc.getBody();
+
 
             TextField contents = new TextField("contents", fullSearchableText, Field.Store.NO);
             doc.add(contents);
-            System.out.println(contents);
+            //System.out.println(contents);
 
             if (indexWriter.getConfig().getOpenMode() == OpenMode.CREATE ) {
                 // New index, so we just add the document (no old document can be there):
@@ -119,6 +122,14 @@ public class IndexerDemo {
         }
         
     }
+
+//    public String arrayToString(ArrayList<String[]> array){
+//        String stringifiedArray = "";
+//        for(int i=1; i<array.size(); i++){
+//            stringifiedArray  = stringifiedArray + array.get(i)[0];
+//        }
+//        return  stringifiedArray;
+//    }
     
     /**
      * Initializes an IndexerDemo

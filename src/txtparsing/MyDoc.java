@@ -65,4 +65,5 @@ public class MyDoc {
     public void setCitation(ArrayList<String[]> citation) {
         this.citation = citation;
     }
+
 }
