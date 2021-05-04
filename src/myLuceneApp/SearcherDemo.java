@@ -18,6 +18,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
+import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 import txtparsing.QueryParsing;
 
@@ -37,7 +38,8 @@ public class SearcherDemo {
             //Access the index using indexReaderFSDirectory.open(Paths.get(index))
             IndexReader indexReader = DirectoryReader.open(FSDirectory.open(Paths.get(indexLocation))); //IndexReader is an abstract class, providing an interface for accessing an index.
             IndexSearcher indexSearcher = new IndexSearcher(indexReader); //Creates a searcher searching the provided index, Implements search over a single IndexReader.
-            indexSearcher.setSimilarity(new ClassicSimilarity());
+            Similarity similarity = new ClassicSimilarity();
+            indexSearcher.setSimilarity(similarity);
             
             //Search the index using indexSearcher
             search(indexSearcher, field, k);
